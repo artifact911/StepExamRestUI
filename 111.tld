@@ -1,0 +1,164 @@
+<wsdl:definitions
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+        xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+        xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+        xmlns:tns="http://webservices.belavia.by/"
+        xmlns:s="http://www.w3.org/2001/XMLSchema"
+        xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+        xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        targetNamespace="http://webservices.belavia.by/">
+    <wsdl:documentation
+            xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+        <img src="webservice.jpg" />
+    </wsdl:documentation>
+
+    <wsdl:types>
+        <s:schema>
+            . . .
+            <s:element name="GetAirportsList">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1"
+                                   name="Language" type="s:string"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element name="GetAirportsListResponse">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1"
+                                   name="GetAirportsListResult"
+                                   type="tns:AirportsResponse"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:complexType name="AirportsResponse">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded"
+                               name="Airport"
+                               type="tns:Airport"/>
+                </s:sequence>
+            </s:complexType>
+            <s:complexType name="Airport">
+                <s:attribute name="IATA" type="s:string"/>
+                <s:attribute name="Name" type="s:string"/>
+            </s:complexType>
+        </s:schema>
+    </wsdl:types>
+
+    <wsdl:message name="GetTimeTableSoapIn">
+        <wsdl:part name="parameters"
+                   element="tns:GetTimeTable"/>
+    </wsdl:message>
+    <wsdl:message name="GetTimeTableSoapOut">
+        <wsdl:part name="parameters"
+                   element="tns:GetTimeTableResponse"/>
+    </wsdl:message>
+    <wsdl:message name="GetAirportsListSoapIn">
+        <wsdl:part name="parameters"
+                   element="tns:GetAirportsList"/>
+    </wsdl:message>
+    <wsdl:message name="GetAirportsListSoapOut">
+        <wsdl:part name="parameters"
+                   element="tns:GetAirportsListResponse"/>
+    </wsdl:message>
+
+    <wsdl:portType name="OnlineTimeTableSoap">
+        <wsdl:operation name="GetTimeTable">
+            <wsdl:documentation
+                    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+                Возвращает список рейсов с информацией о
+                прилёте / вылете и состоянии рейса.
+                Входные параметры:
+                . . .
+            </wsdl:documentation>
+            <wsdl:input message="tns:GetTimeTableSoapIn"/>
+            <wsdl:output message="tns:GetTimeTableSoapOut"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetAirportsList">
+            <wsdl:documentation
+                    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+                Возвращает список аэропортов, где есть
+                информация о выполняемых рейсах.
+                Входные параметры:
+                . . .
+            </wsdl:documentation>
+            <wsdl:input message="tns:GetAirportsListSoapIn"/>
+            <wsdl:output message="tns:GetAirportsListSoapOut"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="OnlineTimeTableSoap"
+                  type="tns:OnlineTimeTableSoap">
+        <soap:binding
+                transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="GetTimeTable">
+            <soap:operation
+                    soapAction="http://webservices.belavia.by/GetTimeTable"
+                    style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetAirportsList">
+            <soap:operation
+                    soapAction="http://webservices.belavia.by/GetAirportsList"
+                    style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="OnlineTimeTableSoap12"
+                  type="tns:OnlineTimeTableSoap">
+        <soap12:binding
+                transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="GetTimeTable">
+            <soap12:operation
+                    soapAction="http://webservices.belavia.by/GetTimeTable"
+                    style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetAirportsList">
+            <soap12:operation
+                    soapAction="http://webservices.belavia.by/GetAirportsList"
+                    style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="OnlineTimeTable">
+        <wsdl:documentation
+                xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+            <img src="webservice.jpg" />
+        </wsdl:documentation>
+        <wsdl:port name="OnlineTimeTableSoap"
+                   binding="tns:OnlineTimeTableSoap">
+            <soap:address
+                    location="http://86.57.245.235/TimeTable/Service.asmx"/>
+        </wsdl:port>
+        <wsdl:port name="OnlineTimeTableSoap12"
+                   binding="tns:OnlineTimeTableSoap12">
+            <soap12:address
+                    location="http://86.57.245.235/TimeTable/Service.asmx"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
